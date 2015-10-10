@@ -15,6 +15,11 @@ class FileSequence ( object ):
 		self.pad = 0
 		self.holes = []
 
+	@property
+	def patternffmpeg( self ):
+		patt = self.basename + "%0{0}d".format(self.pad) + self.ext
+		return patt
+
 	def addFile(self, filenumber):
 		iFileNum = int(filenumber)
 		if iFileNum < self.first:
@@ -62,4 +67,4 @@ def ls (path ):
 if __name__=="__main__":
 	dFSeq = ls("./testbed")
 	for k,oFS in dFSeq.items():
-		print (k,oFS.basename,oFS.postname,oFS.path,oFS.ext,oFS.pattern,oFS.first,oFS.last,oFS.pad,oFS.holes)
+		print (k,oFS.basename,oFS.postname,oFS.path,oFS.ext,oFS.pattern,oFS.first,oFS.last,oFS.pad,oFS.holes,oFS.patternffmpeg)
