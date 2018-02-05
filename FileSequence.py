@@ -16,6 +16,22 @@ class FileSequence ( object ):
 		self.holes = []
 
 	@property
+	def files(self):
+		for x in range(self.first,self.last+1):
+			if self.__inhole(x):
+				continue
+			else:
+				yield self.printpatt.format(x)
+
+	@property
+	def frames(self):
+		for x in range(self.first,self.last+1):
+			if self.__inhole(x):
+				continue
+			else:
+				yield x
+
+	@property
 	def patternffmpeg( self ):
 		patt = self.basename + "%0{0}d".format(self.pad) + self.ext
 		return patt
@@ -28,6 +44,13 @@ class FileSequence ( object ):
 			self.last = iFileNum
 		self.pad = len(filenumber)
 		self.printpatt = self.pattern.format("{0:0>"+str(self.pad)+"}")
+
+	def __inhole( self, x ):
+		for hole in self.holes:
+			if x>=hole[0] and x<=hole[1]:
+				return True
+
+		return False
 
 	def analyze( self ):
 		openhole = False
